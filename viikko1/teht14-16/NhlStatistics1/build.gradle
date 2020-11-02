@@ -1,18 +1,26 @@
 plugins {
-    id 'application'
+	id 'application'
+	id 'jacoco'
 }
 
 repositories {
-    jcenter()
+	jcenter()
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.13'
-    implementation 'com.google.guava:guava:29.0-jre'
+	testImplementation 'junit:junit:4.13'
+	implementation 'com.google.guava:guava:29.0-jre'
 }
 
 mainClassName = 'ohtuesimerkki.Main'
 
-run{
-    standardInput = System.in
+run {
+	standardInput = System.in
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled true
+	}
 }
