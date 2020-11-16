@@ -60,7 +60,9 @@ public class Tester {
         sleep(2);
 
         element = driver.findElement(By.name("username"));
-        // note that the usernames here generated became invalid with the newer authentication service changes
+        // note that the usernames here generated became invalid with the newer
+        // authentication service changes as non-alphabetic characters are
+        // considered invalid
         element.sendKeys("pate" + r.nextInt(100000));
         element = driver.findElement(By.name("password"));
         element.sendKeys("etappi");
