@@ -30,6 +30,18 @@ public class Stepdefs {
         element.click();
     }
 
+    @Given("user with username {string} and password {string} is successfully created")
+    public void userIsSuccessfullyCreated(String username, String password) {
+        newUserIsSelected();
+        registerWith(username, password);
+    }
+
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userIsTriedToBeCreated(String username, String password) {
+        newUserIsSelected();
+        registerWith(username, password);
+    }
+
     @When("correct username {string} and password {string} are given")
     public void correctUsernameAndPasswordAreGiven(String username, String password) {
         logInWith(username, password);
@@ -63,17 +75,17 @@ public class Stepdefs {
 
     @When("a valid username {string} and password {string} and matching password confirmation are entered")
     public void aValidUsernameAndPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) throws Throwable {
-        registerWith(username, password, password);
+        registerWith(username, password);
     }
 
     @When("an invalid username {string} and password {string} and matching password confirmation are entered")
     public void anInvalidUsernameAndPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) throws Throwable {
-        registerWith(username, password, password);
+        registerWith(username, password);
     }
 
     @When("a valid username {string} and invalid password {string} and matching password confirmation are entered")
     public void aValidUsernameAndInvalidPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) throws Throwable {
-        registerWith(username, password, password);
+        registerWith(username, password);
     }
 
     @When("a valid username {string} and password {string} and non-matching password confirmation are entered")
@@ -116,6 +128,10 @@ public class Stepdefs {
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
         element.submit();
+    }
+
+    private void registerWith(String username, String password) {
+        registerWith(username, password, password);
     }
 
     private void registerWith(String username, String password, String passwordConfirmation) {
