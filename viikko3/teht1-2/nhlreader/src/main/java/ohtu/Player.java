@@ -42,6 +42,10 @@ public class Player {
         this.goals = goals;
     }
 
+    public int getPoints() {
+        return goals + assists;
+    }
+
     public String getTeam() {
         return team;
     }
@@ -52,7 +56,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return name + " team " + team + " goals " + goals + " assists " + assists;
+        return name + " team " + team + " goals " + goals + " assists " + assists + " = " + getPoints() + " points";
     }
 
 }
