@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class Stepdefs {
     Counter counter;
-    
+
     @Given("Counter is initialized")
     public void counterIsInitialized() {
         counter = new Counter();
@@ -26,7 +26,12 @@ public class Stepdefs {
 
     @When("it is incremented by {int}")
     public void itIsIncrementedBy(Integer val) {
-         counter.increment(val);       
-    }    
+         counter.increment(val);
+    }
+
+    @When("it is reset")
+    public void itIsReset() {
+        counter.reset();
+    }
 
 }
