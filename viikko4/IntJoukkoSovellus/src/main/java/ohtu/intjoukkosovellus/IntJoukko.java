@@ -82,10 +82,14 @@ public class IntJoukko {
         return true;
     }
 
-    private void kopioiTaulukko(int[] vanha, int[] uusi) {
-        for (int i = 0; i < vanha.length; i++) {
+    private void kopioiTaulukko(int[] vanha, int[] uusi, int pituusraja) {
+        for (int i = 0; i < pituusraja; i++) {
             uusi[i] = vanha[i];
         }
+    }
+
+    private void kopioiTaulukko(int[] vanha, int[] uusi) {
+        kopioiTaulukko(vanha, uusi, vanha.length);
     }
 
     public int mahtavuus() {
@@ -110,9 +114,7 @@ public class IntJoukko {
 
     public int[] toIntArray() {
         int[] taulu = new int[alkioidenLkm];
-        for (int i = 0; i < taulu.length; i++) {
-            taulu[i] = ljono[i];
-        }
+        kopioiTaulukko(ljono, taulu, taulu.length);
         return taulu;
     }
 
@@ -132,19 +134,15 @@ public class IntJoukko {
     public static IntJoukko leikkaus(IntJoukko a, IntJoukko b) {
         IntJoukko y = new IntJoukko();
         int[] aTaulu = a.toIntArray();
-        int[] bTaulu = b.toIntArray();
         for (int i = 0; i < aTaulu.length; i++) {
-            for (int j = 0; j < bTaulu.length; j++) {
-                if (aTaulu[i] == bTaulu[j]) {
-                    y.lisaa(bTaulu[j]);
-                }
+            if (b.kuuluu(aTaulu[i])) {
+                y.lisaa(aTaulu[i]);
             }
         }
         return y;
-
     }
 
-    public static IntJoukko erotus ( IntJoukko a, IntJoukko b) {
+    public static IntJoukko erotus (IntJoukko a, IntJoukko b) {
         IntJoukko z = new IntJoukko();
         int[] aTaulu = a.toIntArray();
         int[] bTaulu = b.toIntArray();
@@ -154,7 +152,6 @@ public class IntJoukko {
         for (int i = 0; i < bTaulu.length; i++) {
             z.poista(bTaulu[i]);
         }
-
         return z;
     }
 
