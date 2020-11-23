@@ -15,15 +15,7 @@ public class IntJoukko {
     }
 
     public IntJoukko(int kapasiteetti) {
-        if (kapasiteetti < 0) {
-            return;
-        }
-        ljono = new int[kapasiteetti];
-        for (int i = 0; i < ljono.length; i++) {
-            ljono[i] = 0;
-        }
-        alkioidenLkm = 0;
-        this.kasvatuskoko = OLETUSKASVATUS;
+        this(kapasiteetti, OLETUSKASVATUS);
     }
 
     public IntJoukko(int kapasiteetti, int kasvatuskoko) {
