@@ -58,4 +58,89 @@ public class KauppaTest {
 
         verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(5));
     }
+
+    @Test
+    public void monituotteinenOstosToimiiJosJokaistaVarastossa() {
+        // luodaan ensin mock-oliot
+        Pankki pankki = mock(Pankki.class);
+
+        Viitegeneraattori viite = mock(Viitegeneraattori.class);
+        // määritellään että viitegeneraattori palauttaa viitten 42
+        when(viite.uusi()).thenReturn(42);
+
+        Varasto varasto = mock(Varasto.class);
+        // määritellään että tuote numero 1 on maito jonka hinta on 5 ja saldo 10
+        when(varasto.saldo(1)).thenReturn(10);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
+        // määritellään että tuote numero 2 on juusto jonka hinta on 7 ja saldo 2
+        when(varasto.saldo(2)).thenReturn(2);
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "juusto", 7));
+
+        // sitten testattava kauppa
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+
+        // tehdään ostokset
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);     // ostetaan tuotetta numero 1 eli maitoa
+        k.lisaaKoriin(2);     // muistetaan myös juusto leivän päälle
+        k.tilimaksu("pekka", "12345");
+
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(5+7));
+    }
+
+    @Test
+    public void monikappaleinenYksituotteinenOstosToimiiJosTarpeeksiVarastossa() {
+        // luodaan ensin mock-oliot
+        Pankki pankki = mock(Pankki.class);
+
+        Viitegeneraattori viite = mock(Viitegeneraattori.class);
+        // määritellään että viitegeneraattori palauttaa viitten 42
+        when(viite.uusi()).thenReturn(42);
+
+        Varasto varasto = mock(Varasto.class);
+        // määritellään että tuote numero 2 on juusto jonka hinta on 7 ja saldo 2
+        when(varasto.saldo(2)).thenReturn(2);
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "juusto", 7));
+
+        // sitten testattava kauppa
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+
+        // tehdään ostokset
+        k.aloitaAsiointi();
+        k.lisaaKoriin(2);     // ostetaan tuotetta numero 2 eli juustoa
+        k.lisaaKoriin(2);     // ai niin joo, tarvitaan toinenkin
+        k.tilimaksu("pekka", "12345");
+
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(7+7));
+    }
+
+    @Test
+    public void monituotteinenOstosToimiiVajavaisestiVajavaisillaVarastosaldoilla() {
+        // luodaan ensin mock-oliot
+        Pankki pankki = mock(Pankki.class);
+
+        Viitegeneraattori viite = mock(Viitegeneraattori.class);
+        // määritellään että viitegeneraattori palauttaa viitten 42
+        when(viite.uusi()).thenReturn(42);
+
+        Varasto varasto = mock(Varasto.class);
+        // määritellään että tuote numero 1 on maito jonka hinta on 5 ja saldo loppu
+        when(varasto.saldo(1)).thenReturn(0);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
+        // määritellään että tuote numero 2 on juusto jonka hinta on 7 ja saldo 1
+        when(varasto.saldo(2)).thenReturn(1);
+        when(varasto.haeTuote(2)).thenReturn(new Tuote(2, "juusto", 7));
+
+        // sitten testattava kauppa
+        Kauppa k = new Kauppa(varasto, pankki, viite);
+
+        // tehdään ostokset
+        k.aloitaAsiointi();
+        k.lisaaKoriin(1);     // ostetaan tuotetta numero 1 eli maitoa
+        k.lisaaKoriin(2);     // muistetaan myös juusto leivän päälle
+        k.tilimaksu("pekka", "12345");
+
+        // vain juuston pitäisi olla päätynyt ostettavaksi asti
+        verify(pankki).tilisiirto(eq("pekka"), eq(42), eq("12345"), anyString(), eq(7));
+    }
 }
