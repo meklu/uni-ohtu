@@ -35,7 +35,6 @@ public class IntJoukko {
     }
 
     public boolean lisaa(int luku) {
-        int eiOle = 0;
         if (alkioidenLkm == 0) {
             ljono[0] = luku;
             alkioidenLkm++;
@@ -56,14 +55,18 @@ public class IntJoukko {
         return false;
     }
 
-    public boolean kuuluu(int luku) {
-        int on = 0;
+    private int etsi(int luku) {
+        int ekaLoytynytIndeksi = -1;
         for (int i = 0; i < alkioidenLkm; i++) {
             if (luku == ljono[i]) {
-                on++;
+                ekaLoytynytIndeksi++;
             }
         }
-        return on > 0;
+        return ekaLoytynytIndeksi;
+    }
+
+    public boolean kuuluu(int luku) {
+        return etsi(luku) >= 0;
     }
 
     public boolean poista(int luku) {
