@@ -2,8 +2,8 @@ package ohtu;
 
 public class TennisGame {
 
-    private int m_score1 = 0;
-    private int m_score2 = 0;
+    private int scorePlayer1 = 0;
+    private int scorePlayer2 = 0;
     private final String player1Name;
     private final String player2Name;
 
@@ -14,9 +14,9 @@ public class TennisGame {
 
     public void wonPoint(String playerName) {
         if (playerName.equals(player1Name)) {
-            m_score1 += 1;
+            scorePlayer1 += 1;
         } else {
-            m_score2 += 1;
+            scorePlayer2 += 1;
         }
     }
 
@@ -35,28 +35,27 @@ public class TennisGame {
         }
     }
 
+    private String getGameSituation() {
+        int minusResult = scorePlayer1-scorePlayer2;
+        if (minusResult==1) return "Advantage player1";
+        else if (minusResult ==-1) return "Advantage player2";
+        else if (minusResult >= 2) return "Win for player1";
+        else return "Win for player2";
+    }
+
     public String getScore() {
-        String score = "";
-        int tempScore = 0;
-        if (m_score1 == m_score2) {
-            if (m_score1 < 4) {
-                score = getScoreName(m_score1) + "-All";
+        // score is tied
+        if (scorePlayer1 == scorePlayer2) {
+            if (scorePlayer1 < 4) {
+                return getScoreName(scorePlayer1) + "-All";
             } else {
-                score = "Deuce";
+                return "Deuce";
             }
+        // game has ended
+        } else if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
+            return getGameSituation();
         }
-        else if (m_score1>=4 || m_score2>=4)
-        {
-            int minusResult = m_score1-m_score2;
-            if (minusResult==1) score ="Advantage player1";
-            else if (minusResult ==-1) score ="Advantage player2";
-            else if (minusResult>=2) score = "Win for player1";
-            else score ="Win for player2";
-        }
-        else
-        {
-            score = getScoreName(m_score1) + "-" + getScoreName(m_score2);
-        }
-        return score;
+        // game is still going on
+        return getScoreName(scorePlayer1) + "-" + getScoreName(scorePlayer2);
     }
 }
