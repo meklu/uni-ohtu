@@ -1,6 +1,10 @@
 
 package ohtu.intjoukkosovellus;
 
+import java.util.Arrays;
+import java.util.function.IntConsumer;
+import java.util.stream.IntStream;
+
 public class IntJoukko {
 
     public final static int KAPASITEETTI = 5, // aloitustalukon koko
@@ -117,41 +121,36 @@ public class IntJoukko {
         return taulu;
     }
 
+    public IntStream toIntStream() {
+        return Arrays.stream(ljono, 0, alkioidenLkm);
+    }
+
+    private void operoiJoukkoa(IntConsumer ic) {
+        this.toIntStream().forEach(ic);
+    }
+
     public static IntJoukko yhdiste(IntJoukko a, IntJoukko b) {
-        IntJoukko x = new IntJoukko();
-        int[] aTaulu = a.toIntArray();
-        int[] bTaulu = b.toIntArray();
-        for (int i = 0; i < aTaulu.length; i++) {
-            x.lisaa(aTaulu[i]);
-        }
-        for (int i = 0; i < bTaulu.length; i++) {
-            x.lisaa(bTaulu[i]);
-        }
-        return x;
+        IntJoukko yhdistetty = new IntJoukko();
+        a.operoiJoukkoa(luku -> yhdistetty.lisaa(luku));
+        b.operoiJoukkoa(luku -> yhdistetty.lisaa(luku));
+        return yhdistetty;
     }
 
     public static IntJoukko leikkaus(IntJoukko a, IntJoukko b) {
-        IntJoukko y = new IntJoukko();
-        int[] aTaulu = a.toIntArray();
-        for (int i = 0; i < aTaulu.length; i++) {
-            if (b.kuuluu(aTaulu[i])) {
-                y.lisaa(aTaulu[i]);
+        IntJoukko leikattu = new IntJoukko();
+        a.operoiJoukkoa(luku -> {
+            if (b.kuuluu(luku)) {
+                leikattu.lisaa(luku);
             }
-        }
-        return y;
+        });
+        return leikattu;
     }
 
     public static IntJoukko erotus (IntJoukko a, IntJoukko b) {
-        IntJoukko z = new IntJoukko();
-        int[] aTaulu = a.toIntArray();
-        int[] bTaulu = b.toIntArray();
-        for (int i = 0; i < aTaulu.length; i++) {
-            z.lisaa(aTaulu[i]);
-        }
-        for (int i = 0; i < bTaulu.length; i++) {
-            z.poista(bTaulu[i]);
-        }
-        return z;
+        IntJoukko erotettu = new IntJoukko();
+        a.operoiJoukkoa(luku -> erotettu.lisaa(luku));
+        b.operoiJoukkoa(luku -> erotettu.poista(luku));
+        return erotettu;
     }
 
 }
