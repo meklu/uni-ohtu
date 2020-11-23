@@ -31,7 +31,6 @@ public class IntJoukko {
         }
         alkioidenLkm = 0;
         this.kasvatuskoko = kasvatuskoko;
-
     }
 
     public boolean lisaa(int luku) {
@@ -44,9 +43,7 @@ public class IntJoukko {
             ljono[alkioidenLkm] = luku;
             alkioidenLkm++;
             if (alkioidenLkm % ljono.length == 0) {
-                int[] taulukkoOld = new int[ljono.length];
-                taulukkoOld = ljono;
-                kopioiTaulukko(ljono, taulukkoOld);
+                int[] taulukkoOld = ljono;
                 ljono = new int[alkioidenLkm + kasvatuskoko];
                 kopioiTaulukko(taulukkoOld, ljono);
             }
@@ -70,40 +67,30 @@ public class IntJoukko {
     }
 
     public boolean poista(int luku) {
-        int kohta = -1;
+        int kohta = etsi(luku);
         int apu;
-        for (int i = 0; i < alkioidenLkm; i++) {
-            if (luku == ljono[i]) {
-                kohta = i; //siis luku löytyy tuosta kohdasta :D
-                ljono[kohta] = 0;
-                break;
-            }
+        if (kohta == -1) {
+            return false;
         }
-        if (kohta != -1) {
-            for (int j = kohta; j < alkioidenLkm - 1; j++) {
-                apu = ljono[j];
-                ljono[j] = ljono[j + 1];
-                ljono[j + 1] = apu;
-            }
-            alkioidenLkm--;
-            return true;
+        ljono[kohta] = 0;
+        for (int j = kohta; j < alkioidenLkm - 1; j++) {
+            apu = ljono[j];
+            ljono[j] = ljono[j + 1];
+            ljono[j + 1] = apu;
         }
-
-
-        return false;
+        alkioidenLkm--;
+        return true;
     }
 
     private void kopioiTaulukko(int[] vanha, int[] uusi) {
         for (int i = 0; i < vanha.length; i++) {
             uusi[i] = vanha[i];
         }
-
     }
 
     public int mahtavuus() {
         return alkioidenLkm;
     }
-
 
     @Override
     public String toString() {
