@@ -67,7 +67,7 @@ public class KauppaTest {
         
         // määrittelemme minkä arvon viitegeneraattori palauttaa kun sen metodia
         // seuraava() kutsutaan
-        when(mockViite.seruaava()).thenReturn(55);
+        when(mockViite.seuraava()).thenReturn(55);
 
         kauppa = new Kauppa(mockPankki, mockViite);
 
@@ -94,7 +94,7 @@ public class KauppaTest {
 
         // tarkistetaan että tässä vaiheessa viitegeneraattorin metodia seuraava()
         // on kutsuttu kerran
-        verify(mockViite, times(1)).seruaava();
+        verify(mockViite, times(1)).seuraava();
 
         kauppa.aloitaOstokset();
         kauppa.lisaaOstos(1);
@@ -102,7 +102,7 @@ public class KauppaTest {
 
         // tarkistetaan että tässä vaiheessa viitegeneraattorin metodia seuraava()
         // on kutsuttu kaksi kertaa
-        verify(mockViite, times(2)).seruaava();
+        verify(mockViite, times(2)).seuraava();
 
         kauppa.aloitaOstokset();
         kauppa.lisaaOstos(3);
@@ -110,7 +110,7 @@ public class KauppaTest {
 
         // tarkistetaan että tässä vaiheessa viitegeneraattorin metodia seuraava()
         // on kutsuttu kolme kertaa        
-        verify(mockViite, times(3)).seruaava();
+        verify(mockViite, times(3)).seuraava();
     }
 
     @Test
@@ -119,7 +119,7 @@ public class KauppaTest {
         Viitegeneraattori mockViite = mock(Viitegeneraattori.class);
         // määritellään että metodi palauttaa ensimmäisellä kutsukerralla 1, toisella 2 
         // ja kolmannella 3
-        when(mockViite.seruaava())
+        when(mockViite.seuraava())
             .thenReturn(1)
             .thenReturn(2)
             .thenReturn(3);
