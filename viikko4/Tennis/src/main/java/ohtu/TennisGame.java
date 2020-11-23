@@ -35,12 +35,22 @@ public class TennisGame {
         }
     }
 
+    private String getLeader() {
+        if (scorePlayer1 > scorePlayer2) {
+            return player1Name;
+        } else if (scorePlayer2 > scorePlayer1) {
+            return player2Name;
+        }
+        // no leader
+        return "";
+    }
+
     private String getGameSituation() {
-        int minusResult = scorePlayer1-scorePlayer2;
-        if (minusResult==1) return "Advantage player1";
-        else if (minusResult ==-1) return "Advantage player2";
-        else if (minusResult >= 2) return "Win for player1";
-        else return "Win for player2";
+        int resultDifference = Math.abs(scorePlayer1 - scorePlayer2);
+        if (resultDifference < 2) {
+            return "Advantage " + getLeader();
+        }
+        return "Win for " + getLeader();
     }
 
     public String getScore() {
