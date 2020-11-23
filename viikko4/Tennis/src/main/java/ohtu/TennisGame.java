@@ -45,7 +45,7 @@ public class TennisGame {
         return "";
     }
 
-    private String getGameSituation() {
+    private String getEndGame() {
         int resultDifference = Math.abs(scorePlayer1 - scorePlayer2);
         if (resultDifference == 0) {
             return "Deuce";
@@ -58,7 +58,7 @@ public class TennisGame {
     public String getScore() {
         // game has ended
         if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
-            return getGameSituation();
+            return getEndGame();
         }
         // game is still going on
         // score is tied
