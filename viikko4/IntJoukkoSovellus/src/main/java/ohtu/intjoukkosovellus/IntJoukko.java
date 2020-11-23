@@ -33,6 +33,14 @@ public class IntJoukko {
         this.kasvatuskoko = kasvatuskoko;
     }
 
+    private void kasvataTarvittaessa() {
+        if (alkioidenLkm % ljono.length == 0) {
+            int[] taulukkoOld = ljono;
+            ljono = new int[alkioidenLkm + kasvatuskoko];
+            kopioiTaulukko(taulukkoOld, ljono);
+        }
+    }
+
     public boolean lisaa(int luku) {
         if (alkioidenLkm == 0) {
             ljono[0] = luku;
@@ -42,11 +50,7 @@ public class IntJoukko {
         if (!kuuluu(luku)) {
             ljono[alkioidenLkm] = luku;
             alkioidenLkm++;
-            if (alkioidenLkm % ljono.length == 0) {
-                int[] taulukkoOld = ljono;
-                ljono = new int[alkioidenLkm + kasvatuskoko];
-                kopioiTaulukko(taulukkoOld, ljono);
-            }
+            kasvataTarvittaessa();
             return true;
         }
         return false;
