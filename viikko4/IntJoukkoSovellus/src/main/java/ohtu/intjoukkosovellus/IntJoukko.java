@@ -59,7 +59,7 @@ public class IntJoukko {
         int ekaLoytynytIndeksi = -1;
         for (int i = 0; i < alkioidenLkm; i++) {
             if (luku == ljono[i]) {
-                ekaLoytynytIndeksi++;
+                ekaLoytynytIndeksi = i;
             }
         }
         return ekaLoytynytIndeksi;
