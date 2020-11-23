@@ -42,18 +42,13 @@ public class IntJoukko {
     }
 
     public boolean lisaa(int luku) {
-        if (alkioidenLkm == 0) {
-            ljono[0] = luku;
-            alkioidenLkm++;
-            return true;
+        if (kuuluu(luku)) {
+            return false;
         }
-        if (!kuuluu(luku)) {
-            ljono[alkioidenLkm] = luku;
-            alkioidenLkm++;
-            kasvataTarvittaessa();
-            return true;
-        }
-        return false;
+        ljono[alkioidenLkm] = luku;
+        alkioidenLkm++;
+        kasvataTarvittaessa();
+        return true;
     }
 
     private int etsi(int luku) {
