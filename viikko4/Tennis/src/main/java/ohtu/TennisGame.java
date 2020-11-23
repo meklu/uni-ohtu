@@ -47,25 +47,24 @@ public class TennisGame {
 
     private String getGameSituation() {
         int resultDifference = Math.abs(scorePlayer1 - scorePlayer2);
-        if (resultDifference < 2) {
+        if (resultDifference == 0) {
+            return "Deuce";
+        } else if (resultDifference < 2) {
             return "Advantage " + getLeader();
         }
         return "Win for " + getLeader();
     }
 
     public String getScore() {
-        // score is tied
-        if (scorePlayer1 == scorePlayer2) {
-            if (scorePlayer1 < 4) {
-                return getScoreName(scorePlayer1) + "-All";
-            } else {
-                return "Deuce";
-            }
         // game has ended
-        } else if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
+        if (scorePlayer1 >= 4 || scorePlayer2 >= 4) {
             return getGameSituation();
         }
         // game is still going on
+        // score is tied
+        if (scorePlayer1 == scorePlayer2) {
+            return getScoreName(scorePlayer1) + "-All";
+        }
         return getScoreName(scorePlayer1) + "-" + getScoreName(scorePlayer2);
     }
 }
